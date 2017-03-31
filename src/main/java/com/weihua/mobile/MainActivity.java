@@ -6,6 +6,7 @@ import com.weihua.common.constant.CommonConstant;
 import com.weihua.mobile.util.Log4JUtil;
 import com.weihua.mobile.webview.CustomerWebChromeClient;
 import com.weihua.ui.userinterface.AssistantInterface;
+import com.weihua.ui.userinterface.UserInterface;
 import com.weihua.util.ExceptionUtil;
 import com.weihua.util.TemplateUtil.TemplateReader;
 
@@ -21,13 +22,13 @@ public class MainActivity extends Activity {
 	private WebView webView;
 	private static String viewFilePath = "index.htm";
 
+	private UserInterface userInterface = new AssistantInterface();
+
 	@JavascriptInterface
-	public String getResponse(String request, String requestType) {
+	public String getResponse(String request) {
 		String msg = "";
 		try {
-			AssistantInterface assistantInterface = new AssistantInterface();
-			String response = assistantInterface.getResponse(request);
-			msg = response;
+			msg = userInterface.getResponse(request);
 		} catch (Exception e) {
 			msg = ExceptionUtil.getStackTrace(e);
 		}
@@ -74,16 +75,16 @@ public class MainActivity extends Activity {
 
 		Log4JUtil.configure();
 
-		MobileReader mobileReader = new MobileReader(this);
-		com.weihua.util.TemplateUtil.initTemplateReader(mobileReader);
+		MobileTemplateReader templateReader = new MobileTemplateReader(this);
+		com.weihua.util.TemplateUtil.initTemplateReader(templateReader);
 
 		initView();
 	}
 
-	public static class MobileReader implements TemplateReader {
+	public static class MobileTemplateReader implements TemplateReader {
 		private android.content.Context context;
 
-		public MobileReader(android.content.Context context) {
+		public MobileTemplateReader(android.content.Context context) {
 			this.context = context;
 		}
 

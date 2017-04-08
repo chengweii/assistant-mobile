@@ -16,13 +16,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class MobileDBHelper extends SQLiteOpenHelper implements DBHelper {
-	private static MobileDBHelper dBHelper = null;
+	private MobileDBHelper dBHelper = null;
 
 	public MobileDBHelper(Context context, String dbName, int dbVersion) {
 		super(context, dbName, null, dbVersion);
-		if (dBHelper == null) {
-			dBHelper = new MobileDBHelper(context, dbName, dbVersion);
-		}
+		dBHelper = this;
 	}
 
 	public void execSQL(String sql, Object[] bindArgs) {

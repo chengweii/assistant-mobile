@@ -4,9 +4,9 @@ import java.io.InputStream;
 
 import com.weihua.common.constant.CommonConstant;
 import com.weihua.mobile.common.Constans;
+import com.weihua.mobile.util.CustomerWebChromeClient;
 import com.weihua.mobile.util.Log4JUtil;
 import com.weihua.mobile.util.dbhelper.MobileDBHelper;
-import com.weihua.mobile.webview.CustomerWebChromeClient;
 import com.weihua.ui.userinterface.AssistantInterface;
 import com.weihua.ui.userinterface.UserInterface;
 import com.weihua.util.ExceptionUtil;
@@ -77,14 +77,18 @@ public class MainActivity extends Activity {
 				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(R.layout.main);
 
-		Log4JUtil.configure();
+		try {
+			Log4JUtil.configure();
 
-		MobileTemplateReader templateReader = new MobileTemplateReader(this);
-		com.weihua.util.TemplateUtil.initTemplateReader(templateReader);
-		MobileDBHelper mobileDBHelper = new MobileDBHelper(this, Constans.ASSISTANT_ROOT_PATH + "assistant.db", 1);
-		com.weihua.util.DBUtil.initDBHelper(mobileDBHelper);
+			MobileTemplateReader templateReader = new MobileTemplateReader(this);
+			com.weihua.util.TemplateUtil.initTemplateReader(templateReader);
+			MobileDBHelper mobileDBHelper = new MobileDBHelper(this, Constans.ASSISTANT_DATABASE_LOCAL_PATH, 1);
+			com.weihua.util.DBUtil.initDBHelper(mobileDBHelper);
 
-		initView();
+			initView();
+		} catch (Exception e) {
+			ExceptionUtil.getStackTrace(e);
+		}
 	}
 
 	public static class MobileTemplateReader implements TemplateReader {

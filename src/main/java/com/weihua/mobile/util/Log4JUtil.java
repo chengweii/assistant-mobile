@@ -16,7 +16,7 @@ public class Log4JUtil {
 		// Date nowtime = new Date();
 		// String needWriteMessage = myLogSdf.format(nowtime);
 		// 日志文件路径地址:SD卡下myc文件夹log文件夹的test文件
-		String fileName = Constans.ASSISTANT_ROOT_PATH + "logs/info.log";
+		String fileName = Constans.ASSISTANT_LOCAL_ROOT_PATH + "logs/info.log";
 		// 设置文件名
 		logConfigurator.setFileName(fileName);
 		// 设置root日志输出级别 默认为DEBUG

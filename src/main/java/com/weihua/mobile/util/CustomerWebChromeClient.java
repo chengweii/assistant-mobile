@@ -1,4 +1,4 @@
-package com.weihua.mobile.webview;
+package com.weihua.mobile.util;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

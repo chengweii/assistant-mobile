@@ -140,6 +140,12 @@
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
 	background-color: #555;
 }
+
+@media screen and (max-width:768px) {
+	#modalDefault .modal-dialog {
+		margin: 100px 10px;
+	}
+}
 </style>
 </head>
 
@@ -150,7 +156,7 @@
 		<!-- Content -->
 		<section id="content" class="container">
 
-			<div id="message-content" class="tile p-5 m-b-0">
+			<div id="message-content" class="tile p-5 p-t-10 m-b-0">
 				<div class="row" id="main-content">
 					<p style="text-align: center;">LOADING...</p>
 				</div>

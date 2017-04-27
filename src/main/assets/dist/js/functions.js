@@ -5,11 +5,21 @@ window.assistant = {
 		var data = mainActivity.getResponse(content);
 		callBack(data);
 	},
+	bindAnimate : function(data) {
+		var animate = $(data).attr("animate");
+		if (animate) {
+			var bindData = $(data);
+			bindData.addClass("animated").css("animation-name", "bounceInDown");
+			return bindData;
+		} else {
+			return data;
+		}
+	},
 	getHome : function() {
 		assistant.requestData({
 			requestContent : "管家"
 		}, function(data) {
-			$("#main-content").html(data);
+			$("#main-content").html(assistant.bindAnimate(data));
 		});
 	},
 	keepAssistantContainerUnique : function(styleClass) {
@@ -20,9 +30,8 @@ window.assistant = {
 			}
 		});
 	},
-	appendMainContainerUnique : function(data, styleClass) {
-		$("." + styleClass).remove();
-		$("#main-content").append(data);
+	appendContainer : function(data, styleClass) {
+		$("." + styleClass).html(data);
 	},
 	modal : {
 		showDialog : function(params) {
@@ -37,7 +46,7 @@ window.assistant = {
 			if (params.height)
 				$('#modalDefault .modal-body').css("height",
 						params.height + "px");
-			if (params.width)
+			if (params.width && $("body").width() > 768)
 				$('#modalDefault .modal-dialog').css("width",
 						params.width + "px");
 			if (params.modalType == '1') {
@@ -95,7 +104,10 @@ $(document).ready(function() {
 		assistant.requestData({
 			requestContent : value
 		}, function(data) {
-			$("#main-content").append(data);
+			if ($(".MainAssistant-container").size() > 0) {
+				$(".MainAssistant-container").remove();
+			}
+			$("#main-content").append(assistant.bindAnimate(data));
 			input.val("");
 		});
 	});

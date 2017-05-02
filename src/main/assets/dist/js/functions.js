@@ -89,7 +89,7 @@ window.assistant = {
 
 $(document).ready(function() {
 
-	setTimeout("assistant.getHome();", 1000);
+	setTimeout("assistant.getHome();", 200);
 
 	$("#message-button").click(function(event) {
 		var input = $("#message-textarea");

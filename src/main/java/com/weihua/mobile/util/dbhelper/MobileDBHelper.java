@@ -78,8 +78,9 @@ public class MobileDBHelper extends SQLiteOpenHelper implements DBHelper {
 				database.execSQL(sql, params);
 			} catch (Exception e) {
 				ExceptionUtil.propagate(logger, e);
+				return 0;
 			}
-			return 0;
+			return 1;
 		}
 	}
 
@@ -97,8 +98,9 @@ public class MobileDBHelper extends SQLiteOpenHelper implements DBHelper {
 				database.endTransaction();
 			} catch (Exception e) {
 				ExceptionUtil.propagate(logger, e);
+				return null;
 			}
-			return null;
+			return new int[] { 1 };
 		}
 	}
 

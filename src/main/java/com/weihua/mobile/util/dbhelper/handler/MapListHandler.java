@@ -10,7 +10,6 @@ import com.weihua.mobile.util.dbhelper.RowProcessor;
 
 import android.database.Cursor;
 
-
 public class MapListHandler implements CursorHandler<List<Map<String, Object>>> {
 
 	private final RowProcessor convert;
@@ -26,9 +25,12 @@ public class MapListHandler implements CursorHandler<List<Map<String, Object>>> 
 
 	@Override
 	public List<Map<String, Object>> handle(Cursor cs) {
-		List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
-		while (!cs.isLast()) {
-			rows.add(this.handleRow(cs));
+		List<Map<String, Object>> rows = null;
+		if (cs != null && cs.getCount() > 0) {
+			rows = new ArrayList<Map<String, Object>>();
+			while (!cs.isLast()) {
+				rows.add(this.handleRow(cs));
+			}
 		}
 		return rows;
 	}

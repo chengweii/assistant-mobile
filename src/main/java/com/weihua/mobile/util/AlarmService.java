@@ -1,5 +1,6 @@
 package com.weihua.mobile.util;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class AlarmService extends BroadcastReceiver {
 
 	private static final UserInterface USER_INTERFACE = new AssistantInterface();
 	private static final String ALARM_REQUEST_CONTENT;
-	
+
 	private static MobileDBHelper mobileDBHelper = null;
 
 	static {
@@ -58,14 +59,29 @@ public class AlarmService extends BroadcastReceiver {
 			} else if (action.equals(Intent.ACTION_SCREEN_ON)) {
 			} else if (action.equals(Intent.ACTION_SCREEN_OFF)) {
 			}
+			Map<String, String> item = new HashMap<String, String>();
+			item.put("content", "content");
+			item.put("title", "title");
+			item.put("icon",
+					"http://www.jlonline.com/d/file/shehuixinwen/20170517/23feb34bc536583ccca35ae76a17e37f.jpg");
+			showMsg(context, item);
 		} catch (Exception e) {
 			LOGGER.error("AlarmService run error:", e);
 		}
 	}
 
-	private void showMsg(Context context, Map<String, String> msg) throws Exception {
-		NotificationUtil.showNotification(context, msg.get("content"), msg.get("title"), msg.get("content"), null, null,
-				msg.get("icon"), (int)(Math.random()*1000) + 1000, null);
+	private void showMsg(final Context context, final Map<String, String> msg) throws Exception {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					NotificationUtil.showNotification(context, msg.get("content"), msg.get("title"), msg.get("content"),
+							null, null, msg.get("icon"), (int) (Math.random() * 1000) + 1000, null);
+				} catch (Exception e) {
+					LOGGER.error("ShowNotification error:", e);
+				}
+			}
+		}).start();
 	}
 
 }

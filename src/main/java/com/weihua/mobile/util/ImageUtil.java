@@ -25,8 +25,8 @@ public class ImageUtil {
 	private static Logger loger = Logger.getLogger(ImageUtil.class);
 
 	public static Bitmap getBitmap(String path) throws Exception {
-		if (path != null && FileUtil.isFileExists(Constans.ASSISTANT_IMG_LOCAL_ROOT_PATH + path)) {
-			Bitmap bitmap = BitmapFactory.decodeFile(Constans.ASSISTANT_IMG_LOCAL_ROOT_PATH + path);
+		if (path != null && FileUtil.isFileExists(Constans.ASSISTANT_IMG_LOCAL_ROOT_PATH + getFileNameFromUrl(path))) {
+			Bitmap bitmap = BitmapFactory.decodeFile(Constans.ASSISTANT_IMG_LOCAL_ROOT_PATH + getFileNameFromUrl(path));
 			return bitmap;
 		}
 
@@ -68,8 +68,12 @@ public class ImageUtil {
 		return paintingBoard;
 	}
 
+	private static String getFileNameFromUrl(String url) {
+		return url.replaceAll("\\/", "#").replaceAll("\\:", "%").replaceAll("\\?", "$");
+	}
+
 	public static void saveBitmap(Bitmap bitmap, String path) throws Exception {
-		String filePath = Constans.ASSISTANT_IMG_LOCAL_ROOT_PATH + path;
+		String filePath = Constans.ASSISTANT_IMG_LOCAL_ROOT_PATH + getFileNameFromUrl(path);
 		File file = new File(filePath);
 		FileOutputStream out;
 		out = new FileOutputStream(file);

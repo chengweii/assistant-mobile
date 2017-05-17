@@ -9,16 +9,18 @@ import android.database.Cursor;
 
 public class BasicRowProcessor implements RowProcessor {
 
-	public static final RowProcessor ROW_PROCESSOR=new BasicRowProcessor();
-	
+	public static final RowProcessor ROW_PROCESSOR = new BasicRowProcessor();
+
 	@Override
-	public Map<String, Object> toMap(Cursor cs){
-		Map<String, Object> result = new CaseInsensitiveHashMap();
+	public Map<String, Object> toMap(Cursor cs) {
+		Map<String, Object> result = null;
 		String[] columnNames = cs.getColumnNames();
 		int cols = columnNames.length;
-		cs.moveToNext();
-		for (int i = 0; i < cols; i++) {
-			result.put(cs.getColumnName(i), cs.getString(i));
+		if (cs != null && cs.moveToNext()) {
+			result = new CaseInsensitiveHashMap();
+			for (int i = 0; i < cols; i++) {
+				result.put(cs.getColumnName(i), cs.getString(i));
+			}
 		}
 		return result;
 	}

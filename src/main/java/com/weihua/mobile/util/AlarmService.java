@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.google.gson.reflect.TypeToken;
+import com.weihua.assistant.constant.OriginType;
 import com.weihua.assistant.entity.request.BaseRequest;
 import com.weihua.mobile.common.Constans;
 import com.weihua.mobile.util.dbhelper.MobileDBHelper;
@@ -32,6 +33,7 @@ public class AlarmService extends BroadcastReceiver {
 		BaseRequest.RequestData request = new BaseRequest.RequestData();
 		request.isLocationPath = true;
 		request.requestContent = "callAlarmService";
+		request.originType = OriginType.MOBILE.getCode();
 		ALARM_REQUEST_CONTENT = GsonUtil.toJson(request);
 	}
 

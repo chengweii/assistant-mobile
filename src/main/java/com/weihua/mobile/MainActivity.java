@@ -1,14 +1,17 @@
 package com.weihua.mobile;
 
 import java.io.InputStream;
+import java.util.Properties;
 
 import com.weihua.common.constant.CommonConstant;
 import com.weihua.mobile.common.Constans;
 import com.weihua.mobile.util.CustomerWebChromeClient;
 import com.weihua.mobile.util.Log4JUtil;
+import com.weihua.mobile.util.PropertiesUtil;
 import com.weihua.mobile.util.dbhelper.MobileDBHelper;
 import com.weihua.ui.userinterface.AssistantInterface;
 import com.weihua.ui.userinterface.UserInterface;
+import com.weihua.util.EmailUtil;
 import com.weihua.util.ExceptionUtil;
 import com.weihua.util.TemplateUtil.TemplateReader;
 
@@ -79,6 +82,11 @@ public class MainActivity extends Activity {
 
 		try {
 			Log4JUtil.configure();
+			
+			Properties properties = PropertiesUtil.getProperties(this);
+			EmailUtil.initDefaultEmailAccountInfo(properties.getProperty("dataEmailUser"),
+					properties.getProperty("dataEmailUserPwd"), properties.getProperty("remindEmailUser"),
+					properties.getProperty("notifyEmailUser"));
 
 			MobileTemplateReader templateReader = new MobileTemplateReader(this);
 			com.weihua.util.TemplateUtil.initTemplateReader(templateReader);

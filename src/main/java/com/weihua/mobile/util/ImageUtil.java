@@ -22,7 +22,7 @@ import android.graphics.RectF;
 
 public class ImageUtil {
 
-	private static Logger loger = Logger.getLogger(ImageUtil.class);
+	private static Logger LOGGER = Logger.getLogger(ImageUtil.class);
 
 	public static Bitmap getBitmap(String path) throws Exception {
 		if (path != null && FileUtil.isFileExists(Constans.ASSISTANT_IMG_LOCAL_ROOT_PATH + getFileNameFromUrl(path))) {
@@ -40,7 +40,7 @@ public class ImageUtil {
 			saveBitmap(bitmap, path);
 			return bitmap;
 		} else {
-			loger.info("Bitmap load failed:" + path);
+			LOGGER.info("Bitmap load failed:" + path);
 		}
 
 		return null;

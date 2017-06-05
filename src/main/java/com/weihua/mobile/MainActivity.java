@@ -6,6 +6,7 @@ import java.util.Properties;
 import com.weihua.common.constant.CommonConstant;
 import com.weihua.mobile.common.Constans;
 import com.weihua.mobile.util.CustomerWebChromeClient;
+import com.weihua.mobile.util.FrontService;
 import com.weihua.mobile.util.Log4JUtil;
 import com.weihua.mobile.util.PropertiesUtil;
 import com.weihua.mobile.util.dbhelper.MobileDBHelper;
@@ -16,6 +17,7 @@ import com.weihua.util.ExceptionUtil;
 import com.weihua.util.TemplateUtil.TemplateReader;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -56,6 +58,9 @@ public class MainActivity extends Activity {
 				return true;
 			}
 		});
+		
+		Intent intent = new Intent(this, FrontService.class);
+		this.startService(intent);
 	}
 
 	private long exitTime = 0;

@@ -15,7 +15,7 @@ public class PropertiesUtil {
 	public static Properties getProperties(Context context) {
 		Properties props = new Properties();
 		try {
-			InputStream in = context.getAssets().open("email.properties");
+			InputStream in = context.getAssets().open("verification.properties");
 			props.load(in);
 		} catch (Exception e) {
 			ExceptionUtil.propagate(LOGGER, e);

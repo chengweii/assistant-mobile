@@ -12,11 +12,13 @@ import com.weihua.mobile.util.PropertiesUtil;
 import com.weihua.mobile.util.dbhelper.MobileDBHelper;
 import com.weihua.ui.userinterface.AssistantInterface;
 import com.weihua.ui.userinterface.UserInterface;
+import com.weihua.util.DidaListUtil;
 import com.weihua.util.EmailUtil;
 import com.weihua.util.ExceptionUtil;
 import com.weihua.util.TemplateUtil.TemplateReader;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
@@ -58,7 +60,7 @@ public class MainActivity extends Activity {
 				return true;
 			}
 		});
-		
+
 		Intent intent = new Intent(this, FrontService.class);
 		this.startService(intent);
 	}
@@ -86,22 +88,28 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 
 		try {
-			Log4JUtil.configure();
-			
-			Properties properties = PropertiesUtil.getProperties(this);
-			EmailUtil.initDefaultEmailAccountInfo(properties.getProperty("dataEmailUser"),
-					properties.getProperty("dataEmailUserPwd"), properties.getProperty("remindEmailUser"),
-					properties.getProperty("notifyEmailUser"));
-
-			MobileTemplateReader templateReader = new MobileTemplateReader(this);
-			com.weihua.util.TemplateUtil.initTemplateReader(templateReader);
-			MobileDBHelper mobileDBHelper = new MobileDBHelper(this, Constans.ASSISTANT_DATABASE_LOCAL_PATH, 1);
-			com.weihua.util.DBUtil.initDBHelper(mobileDBHelper);
-
+			initUtilConfig(this);
 			initView();
 		} catch (Exception e) {
 			ExceptionUtil.getStackTrace(e);
 		}
+	}
+
+	private static void initUtilConfig(Context context) {
+		Log4JUtil.configure();
+
+		Properties properties = PropertiesUtil.getProperties(context);
+		EmailUtil.initDefaultEmailAccountInfo(properties.getProperty("email.dataEmailUser"),
+				properties.getProperty("email.dataEmailUserPwd"), properties.getProperty("email.remindEmailUser"),
+				properties.getProperty("email.notifyEmailUser"));
+
+		DidaListUtil.initDidaListUtil(properties.getProperty("didalist.username"),
+				properties.getProperty("didalist.password"));
+
+		MobileTemplateReader templateReader = new MobileTemplateReader(context);
+		com.weihua.util.TemplateUtil.initTemplateReader(templateReader);
+		MobileDBHelper mobileDBHelper = new MobileDBHelper(context, Constans.ASSISTANT_DATABASE_LOCAL_PATH, 1);
+		com.weihua.util.DBUtil.initDBHelper(mobileDBHelper);
 	}
 
 	public static class MobileTemplateReader implements TemplateReader {

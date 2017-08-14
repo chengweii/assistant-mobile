@@ -38,6 +38,7 @@ public class ImageUtil {
 			InputStream inputStream = conn.getInputStream();
 			Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 			saveBitmap(bitmap, path);
+			inputStream.close();
 			return bitmap;
 		} else {
 			LOGGER.info("Bitmap load failed:" + path);

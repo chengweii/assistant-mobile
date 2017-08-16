@@ -1,6 +1,8 @@
 package com.weihua.mobile;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import com.weihua.common.constant.CommonConstant;
@@ -12,6 +14,7 @@ import com.weihua.mobile.util.PropertiesUtil;
 import com.weihua.mobile.util.dbhelper.MobileDBHelper;
 import com.weihua.ui.userinterface.AssistantInterface;
 import com.weihua.ui.userinterface.UserInterface;
+import com.weihua.util.ConfigUtil;
 import com.weihua.util.DidaListUtil;
 import com.weihua.util.EmailUtil;
 import com.weihua.util.ExceptionUtil;
@@ -99,12 +102,11 @@ public class MainActivity extends Activity {
 		Log4JUtil.configure();
 
 		Properties properties = PropertiesUtil.getProperties(context);
-		EmailUtil.initDefaultEmailAccountInfo(properties.getProperty("email.dataEmailUser"),
-				properties.getProperty("email.dataEmailUserPwd"), properties.getProperty("email.remindEmailUser"),
-				properties.getProperty("email.notifyEmailUser"));
-
-		DidaListUtil.initDidaListUtil(properties.getProperty("didalist.username"),
-				properties.getProperty("didalist.password"));
+		Map<String, String> map = new HashMap<String, String>();
+		for (String key : properties.stringPropertyNames()) {
+			map.put(key, properties.getProperty(key));
+		}
+		ConfigUtil.init(map);
 
 		MobileTemplateReader templateReader = new MobileTemplateReader(context);
 		com.weihua.util.TemplateUtil.initTemplateReader(templateReader);

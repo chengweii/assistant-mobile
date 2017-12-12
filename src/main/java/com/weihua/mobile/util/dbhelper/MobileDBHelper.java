@@ -5,17 +5,16 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.weihua.util.DBUtil.DBHelper;
+import com.google.common.base.Throwables;
 import com.weihua.mobile.util.dbhelper.handler.MapHandler;
 import com.weihua.mobile.util.dbhelper.handler.MapListHandler;
-import com.weihua.util.ExceptionUtil;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class MobileDBHelper extends SQLiteOpenHelper implements DBHelper {
+public class MobileDBHelper extends SQLiteOpenHelper {
 	private MobileDBHelper dBHelper = null;
 
 	public MobileDBHelper(Context context, String dbName, int dbVersion) {
@@ -38,7 +37,6 @@ public class MobileDBHelper extends SQLiteOpenHelper implements DBHelper {
 		}
 	}
 
-	@Override
 	public Map<String, Object> queryMap(Logger logger, String sql, Object... params) {
 		synchronized (dBHelper) {
 			Map<String, Object> map = null;
@@ -48,13 +46,12 @@ public class MobileDBHelper extends SQLiteOpenHelper implements DBHelper {
 				CursorHandler<Map<String, Object>> cursorHandler = new MapHandler();
 				map = cursorHandler.handle(cursor);
 			} catch (Exception e) {
-				ExceptionUtil.propagate(logger, e);
+				Throwables.propagate(e);
 			}
 			return map;
 		}
 	}
 
-	@Override
 	public List<Map<String, Object>> queryMapList(Logger logger, String sql, Object... params) {
 		synchronized (dBHelper) {
 			List<Map<String, Object>> mapList = null;
@@ -64,27 +61,24 @@ public class MobileDBHelper extends SQLiteOpenHelper implements DBHelper {
 				CursorHandler<List<Map<String, Object>>> cursorHandler = new MapListHandler();
 				mapList = cursorHandler.handle(cursor);
 			} catch (Exception e) {
-				ExceptionUtil.propagate(logger, e);
+				Throwables.propagate(e);
 			}
 			return mapList;
 		}
 	}
 
-	@Override
 	public int queryUpdate(Logger logger, String sql, Object... params) {
 		synchronized (dBHelper) {
 			try {
 				SQLiteDatabase database = dBHelper.getWritableDatabase();
 				database.execSQL(sql, params);
 			} catch (Exception e) {
-				ExceptionUtil.propagate(logger, e);
-				return 0;
+				Throwables.propagate(e);
 			}
 			return 1;
 		}
 	}
 
-	@Override
 	public int[] queryBatch(Logger logger, String sql, Object[][] params) {
 		synchronized (dBHelper) {
 			try {
@@ -97,8 +91,7 @@ public class MobileDBHelper extends SQLiteOpenHelper implements DBHelper {
 
 				database.endTransaction();
 			} catch (Exception e) {
-				ExceptionUtil.propagate(logger, e);
-				return null;
+				Throwables.propagate(e);
 			}
 			return new int[] { 1 };
 		}

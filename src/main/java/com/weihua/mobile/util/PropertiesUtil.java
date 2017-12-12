@@ -3,22 +3,18 @@ package com.weihua.mobile.util;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-
-import com.weihua.util.ExceptionUtil;
+import com.google.common.base.Throwables;
 
 import android.content.Context;
 
 public class PropertiesUtil {
-	private static Logger LOGGER = Logger.getLogger(PropertiesUtil.class);
-
-	public static Properties getProperties(Context context) {
+	public static Properties getProperties(Context context,String fileName) {
 		Properties props = new Properties();
 		try {
-			InputStream in = context.getAssets().open("config.properties");
+			InputStream in = context.getAssets().open(fileName);
 			props.load(in);
 		} catch (Exception e) {
-			ExceptionUtil.propagate(LOGGER, e);
+			Throwables.propagate(e);
 		}
 		return props;
 	}

@@ -7,7 +7,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.weihua</groupId>
-			<artifactId>assistant-sdk</artifactId>
+			<artifactId>assistant-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

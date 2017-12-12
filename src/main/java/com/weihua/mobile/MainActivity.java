@@ -1,24 +1,9 @@
 package com.weihua.mobile;
 
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
-import com.weihua.common.constant.CommonConstant;
-import com.weihua.mobile.common.Constans;
+import com.google.common.base.Throwables;
 import com.weihua.mobile.util.CustomerWebChromeClient;
 import com.weihua.mobile.util.FrontService;
 import com.weihua.mobile.util.Log4JUtil;
-import com.weihua.mobile.util.PropertiesUtil;
-import com.weihua.mobile.util.dbhelper.MobileDBHelper;
-import com.weihua.ui.userinterface.AssistantInterface;
-import com.weihua.ui.userinterface.UserInterface;
-import com.weihua.util.ConfigUtil;
-import com.weihua.util.DidaListUtil;
-import com.weihua.util.EmailUtil;
-import com.weihua.util.ExceptionUtil;
-import com.weihua.util.TemplateUtil.TemplateReader;
 
 import android.app.Activity;
 import android.content.Context;
@@ -35,15 +20,13 @@ public class MainActivity extends Activity {
 	private WebView webView;
 	private static String viewFilePath = "index.htm";
 
-	private UserInterface userInterface = new AssistantInterface();
-
 	@JavascriptInterface
 	public String getResponse(String request) {
 		String msg = "";
 		try {
-			msg = userInterface.getResponse(request);
+			//msg = userInterface.getResponse(request);
 		} catch (Exception e) {
-			msg = ExceptionUtil.getStackTrace(e);
+			//msg = ExceptionUtil.getStackTrace(e);
 		}
 		return msg;
 	}
@@ -94,48 +77,12 @@ public class MainActivity extends Activity {
 			initUtilConfig(this);
 			initView();
 		} catch (Exception e) {
-			ExceptionUtil.getStackTrace(e);
+			Throwables.propagate(e);
 		}
 	}
 
 	private static void initUtilConfig(Context context) {
 		Log4JUtil.configure();
-
-		Properties properties = PropertiesUtil.getProperties(context);
-		Map<String, String> map = new HashMap<String, String>();
-		for (String key : properties.stringPropertyNames()) {
-			map.put(key, properties.getProperty(key));
-		}
-		ConfigUtil.init(map);
-
-		MobileTemplateReader templateReader = new MobileTemplateReader(context);
-		com.weihua.util.TemplateUtil.initTemplateReader(templateReader);
-		MobileDBHelper mobileDBHelper = new MobileDBHelper(context, Constans.ASSISTANT_DATABASE_LOCAL_PATH, 1);
-		com.weihua.util.DBUtil.initDBHelper(mobileDBHelper);
-	}
-
-	public static class MobileTemplateReader implements TemplateReader {
-		private android.content.Context context;
-
-		public MobileTemplateReader(android.content.Context context) {
-			this.context = context;
-		}
-
-		@Override
-		public String getTemplateContent(String templateName) {
-			String text = "";
-			try {
-				InputStream input = this.context.getAssets().open(templateName);
-				int size = input.available();
-				byte[] buffer = new byte[size];
-				input.read(buffer);
-				input.close();
-				text = new String(buffer, CommonConstant.CHARSET_UTF8);
-			} catch (Exception e) {
-				text = ExceptionUtil.getStackTrace(e);
-			}
-			return text;
-		}
 	}
 
 }
